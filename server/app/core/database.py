@@ -8,12 +8,12 @@ load_dotenv()
 DB_USER = os.getenv("DB_USER", "pixnet") #(key, default)
 DB_PASSWORD = os.getenv("DB_PASSWORD", "pixnet_ddb")
 DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DB_PORT = os.getenv("DB_PORT", "5436")
 DB_NAME = os.getenv("DB_NAME", "pixnet")
  
 DATABASE_URL = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
  
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, pool_size=50, max_overflow=100, pool_timeout=30)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base() #base model, so we can use tables as classes 
 def get_db():

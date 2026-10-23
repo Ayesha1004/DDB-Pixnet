@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 
 
 # ---------- Users ----------
@@ -10,7 +10,7 @@ from pydantic import BaseModel, EmailStr, ConfigDict
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
-    password: str  # plain text in the request; hashed before it ever touches the DB
+    password: str = Field(min_length=8, max_length=72) # plain text in the request; hashed before it ever touches the DB
 
 
 class UserLogin(BaseModel):
